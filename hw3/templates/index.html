@@ -1,0 +1,84 @@
+<head>
+    <!-- Get our star icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+    <header>
+        <h1> The Davis Review Emporium</h1>
+        <a href="create review link">Create a review</a>
+    </header>
+
+    <main>
+        <table id="reviewTable">
+            <th>Title</th>
+            <th>Rating</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </table>
+
+        Each row will be: |title|rating|edit|delete|
+    <main>
+</body>
+
+
+<!-- remember that edit needs to have the same template as create -->
+
+<script>
+    class Review {
+        constructor(id, title, rating) {
+            this.id = id;
+            this.title = title;
+            this.rating = rating;
+            this.element = this.createElement();
+        }
+
+        // Create a review element - it's a table row
+        createElement() {
+            let element = document.createElement("tr");
+            element.className = "review";
+            element.id = this.id;
+
+            let title = document.createElement("td");
+            title.className = "title";
+            title.innerText = this.title;
+            element.appendChild(title);
+
+            let ratingBox = document.createElement("td");
+            for(let i = 0; i < Number(this.rating); i++) {
+                let star = document.createElement("span");
+                star.className = "fa fa-star";     // from https://www.w3schools.com/howto/howto_css_star_rating.asp
+                ratingBox.appendChild(star);
+            }
+            element.appendChild(ratingBox);
+
+            let edit = document.createElement("td");
+            edit.innerText = "Edit";
+            element.appendChild(edit);
+
+            let del = document.createElement("td");
+            del.innerText = "Delete";
+            element.appendChild(del);
+
+            return element;
+        }
+
+        render() {
+            document.getElementById("reviewTable").appendChild(this.element);
+        }
+
+        delete() {
+            this.element.remove();
+        }
+    }
+
+    async function populateReviews() {
+        // logic from here: https://dmitripavlutin.com/fetch-with-json/
+        let response = await fetch("/get_all_reviews");
+        let json = await(response.json());
+        console.log(json);
+    }
+    
+    populateReviews();
+</script>
