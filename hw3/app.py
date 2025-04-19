@@ -80,7 +80,9 @@ def setup():
     with app.app_context():
         db.create_all()
         if not db_manager.get():  # If database is empty, add a sample entry
-            db_manager.create("Mr. Pumpkin Man", "This is a pretty bad movie", 4)
+            db_manager.create("Mr. Pumpkin Man", "This is a pretty good movie", 4)
+            db_manager.create("Mr. Apple Man", "This movie really rocks", 5)
+            db_manager.create("Mr. Tomato Man", "This is the worst movie I've ever seen", 1)
             print("Database initialized with sample data!")
 
 # Reset the database
@@ -105,14 +107,20 @@ def index():
 @app.route('/get_all_reviews')
 def get_all_reviews():
     reviews = db_manager.get()
+    # i do some weird manual text-control json stuff here. just trust it works
     jsonVersion = "{"
     for i in range(len(reviews)):
-        jsonVersion += """ "{number}" : {review},""".format(number=i, review=reviews[i].toJSON())
+        jsonVersion += """ "{number}" : {review},""".format(number=i, review=reviews[i].toJSON()) # the {number} here is just to keep track of different reviews
     jsonVersion = jsonVersion[:-1]  # get rid of final comma
     jsonVersion += "}"
 
-    print(jsonVersion)
     return jsonVersion
+
+# delete the movie with the given id
+@app.route('/delete/<id>')
+def delete_review(id):
+    db_manager.delete(id)
+    return 'Deleted', 200
 
   
 # RUN THE FLASK APP

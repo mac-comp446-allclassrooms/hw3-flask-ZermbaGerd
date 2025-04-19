@@ -10,15 +10,18 @@ class Review {
      * Creates the element to be put in the table.
     */
     createElement() {
+        // create row
         let element = document.createElement("tr");
         element.className = "review";
         element.id = this.id;
 
+        // create title
         let title = document.createElement("td");
         title.className = "title";
         title.innerText = this.title;
         element.appendChild(title);
 
+        // create rating + put stars in it
         let ratingBox = document.createElement("td");
         for(let i = 0; i < Number(this.rating); i++) {
             let star = document.createElement("span");
@@ -27,13 +30,24 @@ class Review {
         }
         element.appendChild(ratingBox);
 
-        let edit = document.createElement("td");
-        edit.innerText = "Edit";
-        element.appendChild(edit);
+        // create edit/delete and give them the right callbacks
+        let editBox = document.createElement("td");
+        let editContent = document.createElement("button");
+        editContent.onclick = () => {console.log("poopie");};
+        editContent.innerText = "Edit"
+        editBox.appendChild(editContent);
+        element.appendChild(editBox);
 
-        let del = document.createElement("td");
-        del.innerText = "Delete";
-        element.appendChild(del);
+        let delBox = document.createElement("td");
+        let delContent = document.createElement("button");
+        delContent.onclick = () => {
+            let response = fetch("/delete/"+this.id)
+            this.element.remove();
+        };
+        delContent.innerText = "Delete"
+        
+        delBox.appendChild(delContent);
+        element.appendChild(delBox);
 
         return element;
     }
@@ -43,13 +57,6 @@ class Review {
      */ 
     render() {
         document.getElementById("reviewTable").appendChild(this.element);
-    }
-
-    /**
-     * Remove the element from the DOM
-     */
-    delete() {
-        this.element.remove();
     }
 }
 
@@ -61,9 +68,9 @@ async function populateReviews() {
     let response = await fetch("/get_all_reviews");
     let json = await(response.json());
 
+    // loop through every review we have and create an element for it
     let i = 0;
     while(json[String(i)] !== null) {
-        console.log("got into the while loop");
         let src = json[String(i)];
         console.log(src);
         let review = new Review(src["id"], src["title"], src["rating"]);
