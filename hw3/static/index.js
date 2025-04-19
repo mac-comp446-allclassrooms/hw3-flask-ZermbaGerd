@@ -70,7 +70,7 @@ async function populateReviews() {
 
     // loop through every review we have and create an element for it
     let i = 0;
-    while(json[String(i)] !== null) {
+    while(json[String(i)] !== undefined) {
         let src = json[String(i)];
         console.log(src);
         let review = new Review(src["id"], src["title"], src["rating"]);

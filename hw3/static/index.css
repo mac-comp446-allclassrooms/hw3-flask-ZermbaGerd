@@ -1,20 +1,3 @@
-body {
-    text-align:center;
-    background-color: lightgray;
-}
-
-header, main {
-    width: 70%;
-    margin: auto;
-    border-left: 3px black solid;
-    border-right: 3px black solid;
-}
-
-header a {
-    font-size: x-large;
-}
-
-
 .fa-star {
     font-size: xxx-large;
 }
