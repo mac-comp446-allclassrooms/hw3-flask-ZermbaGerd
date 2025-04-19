@@ -1,7 +1,8 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+import json
 
 # Initialize Flask App
 app = Flask(__name__)
@@ -30,6 +31,13 @@ class Review(db.Model):
         self.title = title
         self.text = text
         self.rating = rating
+
+    # converts a review to JSON
+    def toJSON(self):
+        # logic from here: https://stackoverflow.com/a/15538391
+        # and also from here: https://www.w3schools.com/python/ref_string_format.asp
+        jsonVersion = """{{ "id":{id}, "title":"{title}", "text":"{text}", "rating":{rating} }}""".format(id=self.id, title=self.title,text=self.text,rating=self.rating)
+        return jsonVersion
 
 # DATABASE UTILITY CLASS
 class Database:
@@ -72,7 +80,9 @@ def setup():
     with app.app_context():
         db.create_all()
         if not db_manager.get():  # If database is empty, add a sample entry
-            db_manager.create("Mr. Pumpkin Man", "This is a pretty bad movie", 4)
+            db_manager.create("Mr. Pumpkin Man", "This is a pretty good movie", 4)
+            db_manager.create("Mr. Apple Man", "This movie really rocks", 5)
+            db_manager.create("Mr. Tomato Man", "This is the worst movie I've ever seen", 1)
             print("Database initialized with sample data!")
 
 # Reset the database
@@ -86,11 +96,31 @@ def reset_db():
 
 
 # ROUTES
-"""You will add all of your routes below, there is a sample one which you can use for testing"""
 
 @app.route('/')
-def show_all_reviews():
-    return 'Welcome to Movie Theater reviews!'
+def index():
+    print(db_manager.get())
+    indexPage = render_template('index.html')
+    return indexPage
+
+# returns JSON collection of every review
+@app.route('/get_all_reviews')
+def get_all_reviews():
+    reviews = db_manager.get()
+    # i do some weird manual text-control json stuff here. just trust it works
+    jsonVersion = "{"
+    for i in range(len(reviews)):
+        jsonVersion += """ "{number}" : {review},""".format(number=i, review=reviews[i].toJSON()) # the {number} here is just to keep track of different reviews
+    jsonVersion = jsonVersion[:-1]  # get rid of final comma
+    jsonVersion += "}"
+
+    return jsonVersion
+
+# delete the movie with the given id
+@app.route('/delete/<id>')
+def delete_review(id):
+    db_manager.delete(id)
+    return 'Deleted', 200
 
   
 # RUN THE FLASK APP
