@@ -1,0 +1,26 @@
+<head>
+    <!-- Get our star icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- this url_for stuff is from flask documentation - it's the proper way to include them: https://flask.palletsprojects.com/en/stable/tutorial/static/ -->
+    <!-- idk why it's red in my IDE -->
+    <link rel="stylesheet" href= {{ url_for("static", filename="default.css")}}>
+    <link rel="stylesheet" href= {{ url_for("static", filename="index.css")}}>
+</head>
+
+<body>
+    <header>
+        <h1> The Davis Review Emporium</h1>
+        <a id="createLink" href="/edit/-1">Create a review</a>
+    </header>
+
+    <main>
+        <table id="reviewTable">
+            <th>Title</th>
+            <th>Rating</th>
+            <th></th>   <!-- this is the column for edit buttons-->
+            <th></th>   <!-- this is the column for delete buttons-->
+        </table>
+    <main>
+</body>
+
+<script src={{ url_for("static", filename="index.js")}} defer></script>

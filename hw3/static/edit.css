@@ -1,0 +1,30 @@
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    border-bottom:15px black solid;
+}
+
+#filler {
+    width: 100%;
+    background-color: red;
+    font-size: xx-large;
+    border-bottom: 15px black solid;
+}
+
+#title {
+    width: 40%;
+    margin: auto;
+    pointer-events: none;
+}
+
+#review {
+    width: 55%;
+    margin:auto;
+}
+
+p {
+    font-size: x-large;
+}

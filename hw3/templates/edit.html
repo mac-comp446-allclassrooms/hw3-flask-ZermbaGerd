@@ -1,0 +1,42 @@
+<head>
+    <link rel="stylesheet" href= {{ url_for("static", filename="default.css")}}>
+    <link rel="stylesheet" href= {{ url_for("static", filename="edit.css")}}>
+</head>
+
+<body>
+    <meta id="type" content={{id}}>
+
+    <header>
+        <h1> The Davis Review Emporium</h1>
+        <a id="return" href="/"> Return home</a>
+    </header>
+    <main>
+        <div id="filler"> Create a Review:</div>
+
+        <!-- https://www.w3schools.com/html/html_forms.asp -->
+        <form id = "reviewForm">
+            <!-- This is the input that sends the id of our movie -->
+            <input name="id" id="id" value={{id}} type="hidden" style="display:none">
+
+            <label for="title">Title: </label>
+            <input name="title" id="title" type="text">
+
+            <!-- https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_textarea_form -->
+            <label for="review">Review: </label>
+            <textarea name="review" id="review" rows = 4 form="reviewForm" placeholder="Enter review here:"></textarea>
+
+            <label for="rating">Rating (out of 5):</label>
+            <div>
+                <input name="rating" id="1" type="radio", value="1">
+                <input name="rating" id="2" type="radio", value="2">
+                <input name="rating" id="3" type="radio", value="3">
+                <input name="rating" id="4" type="radio", value="4">
+                <input name="rating" id="5" type="radio", value="5">
+            </div>
+
+            <input type="submit" value="Submit">
+        </form>
+    </main>
+</body>
+
+<script src={{ url_for("static", filename="edit.js")}} defer></script>
