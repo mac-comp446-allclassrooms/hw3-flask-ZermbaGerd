@@ -1,0 +1,66 @@
+body {
+    text-align:center;
+    background-color: lightgray;
+}
+
+header, main {
+    width: 70%;
+    margin: auto;
+    border-left: 3px black solid;
+    border-right: 3px black solid;
+}
+
+header a {
+    font-size: x-large;
+}
+
+
+.fa-star {
+    font-size: xxx-large;
+}
+
+/* Table styling */
+/* https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Tables */
+table {
+    table-layout: fixed; 
+    border-collapse: collapse;
+    width:100%;
+    /* position: relative; */
+    text-align: left;
+}
+
+th {
+    background-color:red;
+    height: 80px;
+    border-bottom: black 15px solid;
+    border-top: black 15px solid;
+    font-size: xx-large;
+}
+
+th, td {
+    border-left: black 3px solid;
+    border-right: black 3px solid;
+    padding-left: 5px;
+}
+
+td {
+    border-bottom: black 3px solid;
+    font-size: x-large;
+}
+
+/* manually set width of each column */
+table th:nth-child(1) {
+    width: 40%;
+}
+  
+table th:nth-child(2) {
+    width: 30%;
+}
+  
+table th:nth-child(3) {
+    width: 10%;
+}
+  
+table th:nth-child(4) {
+    width: 10%;
+}
