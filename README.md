@@ -3,4 +3,8 @@
 Comp 446: HW3
 ====
 
-Instructions are [here](https://docs.google.com/document/d/1o2QIHHCon3xKpbKhiq1TUwGKzW7AAg_rt2qP__TLNwM/edit#heading=h.l8rvg9w51atr).
+
+## Known Bugs/Errors:
+- if an empty value is in the form when you submit it, everything breaks. sorry about that
+- weird formatting stuff with stars when the screen is too skinny
+- inspect is a little ugly. sorry about that

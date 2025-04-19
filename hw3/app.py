@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, redirect, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -147,7 +147,9 @@ def edit_review():
     rating = int(request.form.get("rating"))
 
     db_manager.update(id, title, review, rating)
-    return render_template("index.html"), 200
+    
+    # then we redirect: https://stackoverflow.com/a/14343957
+    return redirect("/", code=302)
 
 # receives post requests to create reviews
 # after a successful request, routes back to main page
@@ -159,7 +161,14 @@ def create_review():
     rating = int(request.form.get("rating"))
 
     db_manager.create(title, review, rating)
-    return render_template("index.html"), 200
+
+    # then we redirect: https://stackoverflow.com/a/14343957
+    return redirect("/", code=302)
+
+@app.route("/inspect/<id>")
+def inspect_review(id):
+    inspectPage = render_template('inspect.html', id=id)
+    return inspectPage
 
   
 # RUN THE FLASK APP

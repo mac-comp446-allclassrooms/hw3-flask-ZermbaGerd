@@ -15,8 +15,11 @@ class Review {
         element.className = "review";
         element.id = this.id;
 
-        // create title
+        // create title and add the on-click
         let title = document.createElement("td");
+        title.onclick = () => {
+            window.location = window.location + "inspect/" + this.id;
+        }
         title.className = "title";
         title.innerText = this.title;
         element.appendChild(title);
