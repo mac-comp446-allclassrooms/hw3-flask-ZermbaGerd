@@ -33,7 +33,9 @@ class Review {
         // create edit/delete and give them the right callbacks
         let editBox = document.createElement("td");
         let editContent = document.createElement("button");
-        editContent.onclick = () => {console.log("poopie");};
+        editContent.onclick = () => {
+            window.location = window.location + "edit/" + this.id;
+        };
         editContent.innerText = "Edit"
         editBox.appendChild(editContent);
         element.appendChild(editBox);

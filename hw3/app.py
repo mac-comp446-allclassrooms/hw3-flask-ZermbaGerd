@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -97,11 +97,17 @@ def reset_db():
 
 # ROUTES
 
+# routes to the index page
 @app.route('/')
-def index():
-    print(db_manager.get())
+def index_page():
     indexPage = render_template('index.html')
     return indexPage
+
+# routes to the review editing page
+@app.route('/edit/<id>')
+def edit_page(id):
+    editPage = render_template('edit.html', id=id)
+    return editPage
 
 # returns JSON collection of every review
 @app.route('/get_all_reviews')
@@ -116,11 +122,44 @@ def get_all_reviews():
 
     return jsonVersion
 
+# returns the JSON version of a specific review
+@app.route('/get_review/<id>')
+def get_specific_review(id):
+    review = db_manager.get(id)
+    return review.toJSON(), 200
+
 # delete the movie with the given id
 @app.route('/delete/<id>')
 def delete_review(id):
     db_manager.delete(id)
     return 'Deleted', 200
+
+# receives post requests to edit reviews
+# after a successful request, routes back to main page
+@app.route('/edit', methods=["POST"])
+def edit_review():
+    print("priting dict now")
+    print(request.form.to_dict())
+    # from https://www.geeksforgeeks.org/retrieving-html-from-data-using-flask/
+    id = int(request.form.get("id"))
+    title = request.form.get("title")
+    review = request.form.get("review")
+    rating = int(request.form.get("rating"))
+
+    db_manager.update(id, title, review, rating)
+    return render_template("index.html"), 200
+
+# receives post requests to create reviews
+# after a successful request, routes back to main page
+@app.route('/create', methods=["POST"])
+def create_review():
+    # https://www.geeksforgeeks.org/retrieving-html-from-data-using-flask/
+    title = request.form.get("title")
+    review = request.form.get("review")
+    rating = int(request.form.get("rating"))
+
+    db_manager.create(title, review, rating)
+    return render_template("index.html"), 200
 
   
 # RUN THE FLASK APP
